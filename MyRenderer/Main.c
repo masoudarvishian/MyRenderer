@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "display.h"
+#include "vector.h"
 
 bool is_running = false;
 
