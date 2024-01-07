@@ -14,6 +14,7 @@ vec3_t cube_rotation = { 0, 0, 0 };
 
 float fov_factor = 640;
 bool is_running = false;
+int previous_frame_time;
 
 void setup(void) {
 	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
@@ -57,6 +58,11 @@ vec2_t project(vec3_t point) {
 }
 
 void update(void) {
+
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), previous_frame_time + FRAME_TARGET_TIME));
+
+	previous_frame_time = SDL_GetTicks();
+
 	cube_rotation.x += 0.01;
 	cube_rotation.y += 0.01;
 	cube_rotation.z += 0.01;
@@ -82,7 +88,7 @@ void render(void) {
 		vec2_t projected_point = projected_points[i];
 		draw_rect(
 			projected_point.x + (window_width / 2),
-			projected_point.y + (window_height / 2),
+			projected_point.y  + (window_height / 2),
 			4,
 			4,
 			0xFF00FF00
