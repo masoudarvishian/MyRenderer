@@ -10,14 +10,20 @@
 vec3_t cube_points[N_POINTS];
 vec2_t projected_points[N_POINTS];
 vec3_t camera_position = { 0, 0, -5 };
+vec3_t cube_rotation = { 0, 0, 0 };
 
 float fov_factor = 640;
 bool is_running = false;
 
 void setup(void) {
-	color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * window_width * window_height);
-	color_buffer_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, window_width, window_height);
-
+	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
+	color_buffer_texture = SDL_CreateTexture(
+		renderer,
+		SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_STREAMING,
+		window_width,
+		window_height
+	);
 	int point_count = 0;
 	for (float x = -1; x <= 1; x += 0.25) {
 		for (float y = -1; y <= 1; y += 0.25) {
@@ -51,12 +57,20 @@ vec2_t project(vec3_t point) {
 }
 
 void update(void) {
+	cube_rotation.x += 0.01;
+	cube_rotation.y += 0.01;
+	cube_rotation.z += 0.01;
+
 	for (int i = 0; i < N_POINTS; i++) {
 		vec3_t point = cube_points[i];
 
-		point.z -= camera_position.z;
+		vec3_t translated_point = vec3_rotate_y(point, cube_rotation.y);
+		translated_point = vec3_rotate_z(translated_point, cube_rotation.z);
+		translated_point = vec3_rotate_x(translated_point, cube_rotation.x);
 
-		vec2_t projected_point = project(point);
+		translated_point.z -= camera_position.z;
+
+		vec2_t projected_point = project(translated_point);
 
 		projected_points[i] = projected_point;
 	}
@@ -64,21 +78,18 @@ void update(void) {
 
 void render(void) {
 	draw_grid();
-
 	for (int i = 0; i < N_POINTS; i++) {
 		vec2_t projected_point = projected_points[i];
 		draw_rect(
 			projected_point.x + (window_width / 2),
 			projected_point.y + (window_height / 2),
-			4, 
-			4, 
+			4,
+			4,
 			0xFF00FF00
 		);
 	}
-
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
-
 	SDL_RenderPresent(renderer);
 }
 
