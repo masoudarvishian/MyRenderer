@@ -30,6 +30,9 @@
     <ClCompile Include="triangle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="array.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="display.h">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="triangle.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="array.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
