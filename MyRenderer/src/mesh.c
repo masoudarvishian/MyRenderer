@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "mesh.h"
 #include "array.h"
+#include <string.h>
 
 mesh_t mesh = {
     .vertices = NULL,
@@ -49,4 +50,32 @@ void load_cube_mesh_data(void) {
         face_t cube_face = cube_faces[i];
         array_push(mesh.faces, cube_face);
     }
+}
+
+void load_obj_file_data(char* filename) {
+    FILE* file;
+    if (fopen_s(&file, filename, "r") != 0) {
+        printf("Could not open the file.\n");
+    }
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        if (strncmp(line, "v ", 2) == 0) {
+            vec3_t vertex;
+            int result = sscanf(line, "v %f %f %f", &vertex.x, &vertex.y, &vertex.z);
+            array_push(mesh.vertices, vertex);
+        }
+        if (strncmp(line, "f ", 2) == 0) {
+            int vertex_indices[3];
+            int texture_indices[3];
+            int normal_indices[3];
+            int result = sscanf(line, "f %d/%d/%d %d/%d/%d %d/%d/%d", 
+                &vertex_indices[0], &texture_indices[0], &normal_indices[0],
+                &vertex_indices[1], &texture_indices[1], &normal_indices[1],
+                &vertex_indices[2], &texture_indices[2], &normal_indices[2]
+            );
+            face_t face = { .a = vertex_indices[0], .b = vertex_indices[1], .c = vertex_indices[2] };
+            array_push(mesh.faces, face);
+        }
+    }
+    fclose(file);
 }
