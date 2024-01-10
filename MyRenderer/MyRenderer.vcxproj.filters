@@ -15,40 +15,43 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.c">
+    <ClCompile Include="src\array.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="display.c">
+    <ClCompile Include="src\display.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector.c">
+    <ClCompile Include="src\Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mesh.c">
+    <ClCompile Include="src\mesh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="triangle.c">
+    <ClCompile Include="src\triangle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="array.c">
+    <ClCompile Include="src\vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="display.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\array.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\display.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\mesh.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="triangle.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\triangle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="array.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\vector.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SDL2.dll" />
   </ItemGroup>
 </Project>

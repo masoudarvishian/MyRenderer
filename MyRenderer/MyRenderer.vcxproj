@@ -147,19 +147,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="array.c" />
-    <ClCompile Include="display.c" />
-    <ClCompile Include="Main.c" />
-    <ClCompile Include="mesh.c" />
-    <ClCompile Include="triangle.c" />
-    <ClCompile Include="vector.c" />
+    <ClCompile Include="src\array.c" />
+    <ClCompile Include="src\display.c" />
+    <ClCompile Include="src\Main.c" />
+    <ClCompile Include="src\mesh.c" />
+    <ClCompile Include="src\triangle.c" />
+    <ClCompile Include="src\vector.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="array.h" />
-    <ClInclude Include="display.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="triangle.h" />
-    <ClInclude Include="vector.h" />
+    <ClInclude Include="src\array.h" />
+    <ClInclude Include="src\display.h" />
+    <ClInclude Include="src\mesh.h" />
+    <ClInclude Include="src\triangle.h" />
+    <ClInclude Include="src\vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SDL2.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
