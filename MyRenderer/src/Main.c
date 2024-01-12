@@ -99,19 +99,7 @@ void update(void) {
 
 		vec3_t camera_ray = vec3_sub(camera_position, vector_a);
 
-		vec3_t vector_camera_to_face_normal = {
-			.x = camera_ray.x / vec3_length(camera_ray),
-			.y = camera_ray.y / vec3_length(camera_ray),
-			.z = camera_ray.z / vec3_length(camera_ray)
-		};
-
-		vec3_t vector_cross_normal = {
-			.x = normal.x / vec3_length(normal),
-			.y = normal.y / vec3_length(normal),
-			.z = normal.z / vec3_length(normal)
-		};
-
-		float dot_normal_camera = vec3_dot(vector_cross_normal, vector_camera_to_face_normal);
+		float dot_normal_camera = vec3_dot(normal, camera_ray);
 
 		if (dot_normal_camera < 0.0)
 			continue;
