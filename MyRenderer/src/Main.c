@@ -9,7 +9,7 @@
 
 triangle_t* triangles_to_render = NULL;
 
-vec3_t camera_position = { 0, 0, -5 };
+vec3_t camera_position = { 0, 0, 0 };
 
 float fov_factor = 640;
 bool is_running = false;
@@ -24,7 +24,7 @@ void setup(void) {
 		window_width,
 		window_height
 	);
-	load_obj_file_data("./assets/f22.obj");
+	load_obj_file_data("./assets/cube.obj");
 }
 
 void process_input(void) {
@@ -59,8 +59,8 @@ void update(void) {
 	triangles_to_render = NULL;
 
 	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.00;
-	mesh.rotation.z += 0.00;
+	mesh.rotation.y += 0.01;
+	mesh.rotation.z += 0.01;
 
 	// Loop all triangle faces of our mesh
 	int num_faces = array_length(mesh.faces);
@@ -72,7 +72,7 @@ void update(void) {
 		face_vertices[1] = mesh.vertices[mesh_face.b - 1];
 		face_vertices[2] = mesh.vertices[mesh_face.c - 1];
 
-		triangle_t projected_triangle;
+		vec3_t transformed_vertices[3];
 
 		// Loop all three vertices of this current face and apply transformations
 		for (int j = 0; j < 3; j++) {
@@ -83,10 +83,43 @@ void update(void) {
 			transformed_vertex = vec3_rotate_z(transformed_vertex, mesh.rotation.z);
 
 			// Translate the vertex away from the camera
-			transformed_vertex.z -= camera_position.z;
+			transformed_vertex.z += 5;
+			transformed_vertices[j] = transformed_vertex;
+		}
 
+		// check backface culling
+		vec3_t vector_a = transformed_vertices[0]; /*    A    */
+		vec3_t vector_b = transformed_vertices[1]; /*   / \   */
+		vec3_t vector_c = transformed_vertices[2]; /*  B---C  */
+
+		vec3_t vector_ab = vec3_sub(vector_b, vector_a);
+		vec3_t vector_ac = vec3_sub(vector_c, vector_a);
+
+		vec3_t normal = vec3_cross(vector_ab, vector_ac);
+
+		vec3_t camera_ray = vec3_sub(camera_position, vector_a);
+
+		vec3_t vector_camera_to_face_normal = {
+			.x = camera_ray.x / vec3_length(camera_ray),
+			.y = camera_ray.y / vec3_length(camera_ray),
+			.z = camera_ray.z / vec3_length(camera_ray)
+		};
+
+		vec3_t vector_cross_normal = {
+			.x = normal.x / vec3_length(normal),
+			.y = normal.y / vec3_length(normal),
+			.z = normal.z / vec3_length(normal)
+		};
+
+		float dot_normal_camera = vec3_dot(vector_cross_normal, vector_camera_to_face_normal);
+
+		if (dot_normal_camera < 0.0)
+			continue;
+
+		triangle_t projected_triangle;
+		for (int j = 0; j < 3; j++) {
 			// Project the current vertex
-			vec2_t projected_point = project(transformed_vertex);
+			vec2_t projected_point = project(transformed_vertices[j]);
 
 			// Scale and translate the projected points to the middle of the screen
 			projected_point.x += (window_width / 2);
@@ -94,7 +127,6 @@ void update(void) {
 
 			projected_triangle.points[j] = projected_point;
 		}
-
 		// Save the projected triangle in the array of triangles to render
 		array_push(triangles_to_render, projected_triangle);
 	}
