@@ -127,14 +127,17 @@ void render(void) {
 	draw_grid();
 	
 	// Loop all projected triangles and render them
-	int num_triangles = array_length(triangles_to_render);
+	/*int num_triangles = array_length(triangles_to_render);
 	for (int i = 0; i < num_triangles; i++) {
 		triangle_t triangle = triangles_to_render[i];
 	    draw_rect(triangle.points[0].x, triangle.points[0].y, 3, 3, 0xFFFFFF00);
 		draw_rect(triangle.points[1].x, triangle.points[1].y, 3, 3, 0xFFFFFF00);
 		draw_rect(triangle.points[2].x, triangle.points[2].y, 3, 3, 0xFFFFFF00);
 		draw_triangle(triangle, 0xFF00FF00);
-	}
+	}*/
+
+	draw_filled_triangle(300, 100, 50, 400, 500, 700, 0xFF00FF00);
+
 	array_free(triangles_to_render);
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
