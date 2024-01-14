@@ -17,6 +17,12 @@ extern int window_width;
 extern int window_height;
 extern SDL_Texture* color_buffer_texture;
 
+extern uint8_t wireframe;
+extern uint8_t red_dot;
+extern uint8_t filled_triangle;
+extern uint8_t rendering_mode;
+extern bool backface_culling;
+
 bool initialize_window(void);
 void render_color_buffer(void);
 void clear_color_buffer(uint32_t color);

@@ -7,6 +7,12 @@ int window_width = 800;
 int window_height = 600;
 SDL_Texture* color_buffer_texture = NULL;
 
+uint8_t wireframe = 0x2;
+uint8_t red_dot = 0x4;
+uint8_t filled_triangle = 0x8;
+uint8_t rendering_mode;
+bool backface_culling = true;
+
 bool initialize_window(void) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		fprintf(stderr, "Failed to init SDL!\n");
@@ -94,7 +100,7 @@ void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
 	float current_x = x0;
 	float current_y = y0;
 
-	for (int i = 0; i < longest_side_length; i++) {
+	for (int i = 0; i <= longest_side_length; i++) {
 		draw_pixel(round(current_x), round(current_y), color);
 		current_x += x_inc;
 		current_y += y_inc;
