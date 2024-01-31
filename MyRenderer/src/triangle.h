@@ -19,6 +19,4 @@ typedef struct {
 
 void draw_filled_triangle(int x0, int y0, int x1, int y1, int x2, int y2, uint32_t color);
 
-int compareTriangles(const void* a, const void* b);
-
 #endif
