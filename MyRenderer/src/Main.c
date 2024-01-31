@@ -19,7 +19,7 @@ bool is_running = false;
 int previous_frame_time;
 
 void setup(void) {
-	rendering_mode = wireframe | red_dot;
+	rendering_mode = filled_triangle;
 	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
 	color_buffer_texture = SDL_CreateTexture(
 		renderer,
@@ -153,6 +153,9 @@ void update(void) {
 			// scale
 			projected_points[j].x *= (window_width / 2.0);
 			projected_points[j].y *= (window_height / 2.0);
+
+			// invert y axis
+			projected_points[j].y *= -1;
 
 			// translate the projected points to the middle of the screen
 			projected_points[j].x += (window_width / 2.0);
