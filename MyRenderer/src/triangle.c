@@ -1,11 +1,6 @@
 #include "triangle.h"
 #include "display.h"
-
-void int_swap(int* a, int* b) {
-	int tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
+#include "swap.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Draw a filled a triangle with a flat bottom
