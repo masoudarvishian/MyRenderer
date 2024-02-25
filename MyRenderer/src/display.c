@@ -7,9 +7,10 @@ int window_width = 800;
 int window_height = 600;
 SDL_Texture* color_buffer_texture = NULL;
 
-uint8_t wireframe = 0x2;
-uint8_t red_dot = 0x4;
-uint8_t filled_triangle = 0x8;
+uint8_t wireframe = 0x1;
+uint8_t red_dot = 0x2;
+uint8_t filled_triangle = 0x4;
+uint8_t render_texture = 0x8;
 uint8_t rendering_mode;
 bool backface_culling = true;
 
@@ -80,12 +81,6 @@ void draw_rect(int x, int y, int width, int height, uint32_t color) {
 			draw_pixel(col, row, color);
 		}
 	}
-}
-
-void draw_triangle(triangle_t triangle, uint32_t color) {
-	draw_line(triangle.points[0].x, triangle.points[0].y, triangle.points[1].x, triangle.points[1].y, color);
-	draw_line(triangle.points[1].x, triangle.points[1].y, triangle.points[2].x, triangle.points[2].y, color);
-	draw_line(triangle.points[2].x, triangle.points[2].y, triangle.points[0].x, triangle.points[0].y, color);
 }
 
 void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
