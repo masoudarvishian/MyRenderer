@@ -21,7 +21,7 @@
     <ClCompile Include="src\display.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Main.c">
+    <ClCompile Include="src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mesh.c">
