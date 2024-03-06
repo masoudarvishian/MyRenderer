@@ -36,8 +36,8 @@ void setup(void) {
 	float zfar = 100.0;
 	proj_matrix = mat4_make_perspective(fov, aspect, znear, zfar);
 
-	load_cube_mesh_data();
-	//load_obj_file_data("./assets/f22.obj");
+	//load_cube_mesh_data();
+	load_obj_file_data("./assets/cube.obj");
 
 	load_png_texture_data("./assets/cube.png");
 }
