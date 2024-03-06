@@ -86,9 +86,9 @@ void update(void) {
 
 	triangles_to_render = NULL;
 
-	//mesh.rotation.x += 0.01;
+	mesh.rotation.x += 0.01;
 	mesh.rotation.y += 0.01;
-	//mesh.rotation.z += 0.01;
+	mesh.rotation.z += 0.01;
 	mesh.translation.z = 5.0;
 
 	mat4_t scale_matrix = mat4_make_scale(mesh.scale.x, mesh.scale.y, mesh.scale.z);
