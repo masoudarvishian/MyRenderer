@@ -20,8 +20,11 @@ bool is_running = false;
 int previous_frame_time;
 
 void setup(void) {
-	rendering_mode = filled_triangle;
+	rendering_mode = render_texture;
+
 	color_buffer = (uint32_t*)malloc(sizeof(uint32_t) * window_width * window_height);
+	z_buffer = (float*)malloc(sizeof(float) * window_width * window_height);
+
 	color_buffer_texture = SDL_CreateTexture(
 		renderer,
 		SDL_PIXELFORMAT_RGBA32,
@@ -87,8 +90,8 @@ void update(void) {
 	triangles_to_render = NULL;
 
 	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.01;
-	mesh.rotation.z += 0.01;
+	/*mesh.rotation.y += 0.01;
+	mesh.rotation.z += 0.01;*/
 	mesh.translation.z = 5.0;
 
 	mat4_t scale_matrix = mat4_make_scale(mesh.scale.x, mesh.scale.y, mesh.scale.z);
@@ -252,6 +255,7 @@ void render(void) {
 	array_free(triangles_to_render);
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
+	clear_z_buffer();
 	SDL_RenderPresent(renderer);
 }
 
@@ -259,6 +263,7 @@ void free_resources(void) {
 	array_free(mesh.vertices);
 	array_free(mesh.faces);
 	free(color_buffer);
+	free(z_buffer);
 	upng_free(png_texture);
 }
 
