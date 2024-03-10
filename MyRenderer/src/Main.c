@@ -11,7 +11,9 @@
 #include "light.h"
 #include "upng.h"
 
-triangle_t* triangles_to_render = NULL;
+#define MAX_TRIANGLES_PER_MESH 10000
+triangle_t triangles_to_render[MAX_TRIANGLES_PER_MESH];
+int num_triangles_to_render = 0;
 
 vec3_t camera_position = { 0, 0, 0 };
 
@@ -40,9 +42,9 @@ void setup(void) {
 	proj_matrix = mat4_make_perspective(fov, aspect, znear, zfar);
 
 	//load_cube_mesh_data();
-	load_obj_file_data("./assets/f22.obj");
+	load_obj_file_data("./assets/drone.obj");
 
-	load_png_texture_data("./assets/f22.png");
+	load_png_texture_data("./assets/drone.png");
 }
 
 void process_input(void) {
@@ -87,11 +89,12 @@ void update(void) {
 
 	previous_frame_time = SDL_GetTicks();
 
-	triangles_to_render = NULL;
+	// initialize the counter of triangles to render for the current frame
+	num_triangles_to_render = 0;
 
-	mesh.rotation.x += 0.01;
-	/*mesh.rotation.y += 0.01;
-	mesh.rotation.z += 0.01;*/
+	mesh.rotation.x += 0.02;
+	mesh.rotation.y += 0.02;
+	mesh.rotation.z += 0.02;
 	mesh.translation.z = 5.0;
 
 	mat4_t scale_matrix = mat4_make_scale(mesh.scale.x, mesh.scale.y, mesh.scale.z);
@@ -190,7 +193,10 @@ void update(void) {
 		};
 
 		// Save the projected triangle in the array of triangles to render
-		array_push(triangles_to_render, projected_triangle);
+		if (num_triangles_to_render < MAX_TRIANGLES_PER_MESH) {
+			triangles_to_render[num_triangles_to_render] = projected_triangle;
+			num_triangles_to_render++;
+		}
 	}
 }
 
@@ -198,8 +204,7 @@ void render(void) {
 	draw_grid();
 	
 	// Loop all projected triangles and render them
-	int num_triangles = array_length(triangles_to_render);
-	for (int i = 0; i < num_triangles; i++) {
+	for (int i = 0; i < num_triangles_to_render; i++) {
 		triangle_t triangle = triangles_to_render[i];
 
 		if ((rendering_mode & red_dot) == red_dot) {
@@ -236,7 +241,6 @@ void render(void) {
 		}
 	}
 
-	array_free(triangles_to_render);
 	render_color_buffer();
 	clear_color_buffer(0xFF000000);
 	clear_z_buffer();
