@@ -172,8 +172,6 @@ void update(void) {
 			projected_points[j].y += (window_height / 2.0);
 		}
 
-		float avg_depth = (transformed_vertices[0].z + transformed_vertices[1].z + transformed_vertices[2].z) / 3.0;
-
 		float light_intensity_factor = vec3_dot(normal, light.direction) * -1;
 		uint32_t triangle_color = light_apply_intensity(mesh_face.color, light_intensity_factor);
 
@@ -188,25 +186,11 @@ void update(void) {
 				{ mesh_face.b_uv.u, mesh_face.b_uv.v },
 				{ mesh_face.c_uv.u, mesh_face.c_uv.v }
 			},
-			.color = triangle_color,
-			.avg_depth = avg_depth
+			.color = triangle_color
 		};
 
 		// Save the projected triangle in the array of triangles to render
 		array_push(triangles_to_render, projected_triangle);
-	}
-
-	// bubble sort triangles_to_render by avg_depth
-	int num_triangles_to_render = array_length(triangles_to_render);
-	for (int i = 0; i < num_triangles_to_render; i++) {
-		for (int j = i; j < num_triangles_to_render; j++) {
-			if (triangles_to_render != NULL && triangles_to_render[i].avg_depth < triangles_to_render[j].avg_depth) {
-				// swap
-				triangle_t tmp = triangles_to_render[i];
-				triangles_to_render[i] = triangles_to_render[j];
-				triangles_to_render[j] = tmp;
-			}
-		}
 	}
 }
 
@@ -226,9 +210,9 @@ void render(void) {
 	   
 		if ((rendering_mode & filled_triangle) == filled_triangle) {
 			draw_filled_triangle(
-				triangle.points[0].x, triangle.points[0].y,
-				triangle.points[1].x, triangle.points[1].y,
-				triangle.points[2].x, triangle.points[2].y,
+				triangle.points[0].x, triangle.points[0].y, triangle.points[0].z, triangle.points[0].w,
+				triangle.points[1].x, triangle.points[1].y, triangle.points[1].z, triangle.points[1].w,
+				triangle.points[2].x, triangle.points[2].y, triangle.points[2].z, triangle.points[2].w,
 				triangle.color
 			);
 		}
