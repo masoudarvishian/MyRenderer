@@ -42,9 +42,9 @@ void setup(void) {
 	proj_matrix = mat4_make_perspective(fov, aspect, znear, zfar);
 
 	//load_cube_mesh_data();
-	load_obj_file_data("./assets/drone.obj");
+	load_obj_file_data("./assets/f22.obj");
 
-	load_png_texture_data("./assets/drone.png");
+	load_png_texture_data("./assets/f22.png");
 }
 
 void process_input(void) {
@@ -92,9 +92,9 @@ void update(void) {
 	// initialize the counter of triangles to render for the current frame
 	num_triangles_to_render = 0;
 
-	mesh.rotation.x += 0.02;
-	mesh.rotation.y += 0.02;
-	mesh.rotation.z += 0.02;
+	mesh.rotation.x += 0.01;
+	mesh.rotation.y += 0.01;
+	mesh.rotation.z += 0.01;
 	mesh.translation.z = 5.0;
 
 	mat4_t scale_matrix = mat4_make_scale(mesh.scale.x, mesh.scale.y, mesh.scale.z);
